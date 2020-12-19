@@ -6,7 +6,9 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
+import { View } from "../components/Themed";
 import Colors from "../constants/Colors";
+import { Octicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
@@ -44,10 +46,39 @@ function RootNavigator() {
         },
         // headerTintColor: 'red',
         headerTintColor: Colors.light.background,
-        headerTitleAlign: 'center',
+        headerTitleAlign: "left",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
       }}
-    > 
-      <Stack.Screen name="Root" component={BottomTabNavigator} />
+    >
+      <Stack.Screen
+        name="Root"
+        component={BottomTabNavigator}
+        options={{
+          title: "WhatsApp",
+          headerRight: () => (
+            <View>
+              <Octicons
+                name="search"
+                size={24}
+                color="white"
+                style={{
+                  backgroundColor: Colors.light.tint,
+                }}
+              />
+              <MaterialCommunityIcons
+                name="dots-vertical"
+                size={24}
+                color="white"
+                style={{
+                  backgroundColor: Colors.light.tint,
+                }}
+              />
+            </View>
+          ),
+        }}
+      />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
