@@ -12,7 +12,7 @@ import { Octicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
-import BottomTabNavigator from "./BottomTabNavigator";
+import MainTabNavigator from "./MainTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
 import styled from "styled-components/native";
 
@@ -45,7 +45,6 @@ function RootNavigator() {
         headerStyle: {
           backgroundColor: Colors.light.tint,
         },
-        // headerTintColor: 'red',
         headerTintColor: Colors.light.background,
         headerTitleAlign: "left",
         headerTitleStyle: {
@@ -55,15 +54,15 @@ function RootNavigator() {
     >
       <Stack.Screen
         name="Root"
-        component={BottomTabNavigator}
+        component={MainTabNavigator}
         options={{
           title: "WhatsApp",
           headerRight: () => (
             <HeaderRightIcons>
-              <Octicons name="search" size={24} color="white" />
+              <Octicons name="search" size={22} color="white" />
               <MaterialCommunityIcons
                 name="dots-vertical"
-                size={24}
+                size={22}
                 color="white"
               />
             </HeaderRightIcons>
@@ -83,5 +82,6 @@ const HeaderRightIcons = styled.View`
   flex-direction: row;
   width: 60px;
   justify-content: space-between;
+  margin-right: 10px;
   background-color: ${Colors.light.tint};
 `;
