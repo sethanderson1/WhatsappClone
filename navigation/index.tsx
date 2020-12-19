@@ -6,7 +6,7 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
-import { View } from "../components/Themed";
+import { View, Text } from "../components/Themed";
 import Colors from "../constants/Colors";
 import { Octicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -14,6 +14,7 @@ import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
 import BottomTabNavigator from "./BottomTabNavigator";
 import LinkingConfiguration from "./LinkingConfiguration";
+import styled from "styled-components/native";
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
@@ -58,24 +59,14 @@ function RootNavigator() {
         options={{
           title: "WhatsApp",
           headerRight: () => (
-            <View>
-              <Octicons
-                name="search"
-                size={24}
-                color="white"
-                style={{
-                  backgroundColor: Colors.light.tint,
-                }}
-              />
+            <HeaderRightIcons>
+              <Octicons name="search" size={24} color="white" />
               <MaterialCommunityIcons
                 name="dots-vertical"
                 size={24}
                 color="white"
-                style={{
-                  backgroundColor: Colors.light.tint,
-                }}
               />
-            </View>
+            </HeaderRightIcons>
           ),
         }}
       />
@@ -87,3 +78,10 @@ function RootNavigator() {
     </Stack.Navigator>
   );
 }
+
+const HeaderRightIcons = styled.View`
+  flex-direction: row;
+  width: 60px;
+  justify-content: space-between;
+  background-color: ${Colors.light.tint};
+`;
