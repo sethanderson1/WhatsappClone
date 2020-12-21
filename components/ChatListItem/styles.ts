@@ -6,8 +6,8 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "space-between",
     padding: 10,
-    borderWidth: 0.5,    
-    borderStyle: "solid",
+    // borderWidth: 0.5,    
+    // borderStyle: "solid",
   },
   avatar: {
     width: 60,
