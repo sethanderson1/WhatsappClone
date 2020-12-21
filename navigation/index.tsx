@@ -6,10 +6,8 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import * as React from "react";
 import { ColorSchemeName } from "react-native";
-import { View, Text } from "../components/Themed";
 import Colors from "../constants/Colors";
 import { Octicons, MaterialCommunityIcons } from "@expo/vector-icons";
-
 import NotFoundScreen from "../screens/NotFoundScreen";
 import { RootStackParamList } from "../types";
 import MainTabNavigator from "./MainTabNavigator";
