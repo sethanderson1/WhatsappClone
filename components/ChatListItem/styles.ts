@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "grey",
     width: 200,
-    // flex:1,
   },
   time: {
     paddingTop: 8,
