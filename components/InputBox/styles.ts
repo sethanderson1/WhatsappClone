@@ -5,17 +5,23 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     margin: 10,
+    alignItems: 'flex-end',
   },
   mainContainer: {
     flexDirection: 'row',
     backgroundColor: 'white',
     padding:10,
     marginRight: 10,
-    borderRadius: 50,
+    borderRadius: 20,
     flex:1,
+    alignItems: 'flex-end',
   },
   textInput: {
     flex: 1,
+    marginHorizontal: 10,
+  },
+  icon: {
+    marginHorizontal: 5,
   },
   buttonContainer: {
     backgroundColor: Colors.light.tint,
