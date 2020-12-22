@@ -23,18 +23,19 @@ const styles = StyleSheet.create({
     paddingTop: 3,
     fontSize: 16,
     color: "grey",
-    width: 200,
+    // width: 200,
+  },
+  leftContainer: {
+    flexDirection: "row",
+    flexShrink:1,
+  },
+  midContainer: {
+    justifyContent: "center",
   },
   time: {
     paddingTop: 8,
     fontSize: 16,
     color: "grey",
-  },
-  leftContainer: {
-    flexDirection: "row",
-  },
-  midContainer: {
-    justifyContent: "center",
   },
 });
 
