@@ -12,6 +12,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@aws-amplify/ui-react": "^0.2.33",
     "@expo/vector-icons": "^12.0.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.11.1",
@@ -19,6 +20,7 @@
     "@react-navigation/native": "^5.8.9",
     "@react-navigation/stack": "^5.12.6",
     "@types/styled-components": "^5.1.7",
+    "aws-amplify": "^3.3.13",
     "expo": "~40.0.0",
     "expo-asset": "~8.2.1",
     "expo-constants": "~9.3.0",
@@ -44,6 +46,7 @@
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "jest-expo": "~40.0.0",
+    "nodemon": "^2.0.6",
     "typescript": "~4.0.0"
   },
   "private": true
