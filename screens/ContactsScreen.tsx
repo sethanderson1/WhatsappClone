@@ -16,7 +16,7 @@ export default function ContactsScreen() {
         keyExtractor={(item) => item.id}
         style={{ width: "100%", }}
       />
-      <NewMessageButton />
+      {/* <NewMessageButton /> */}
     </View>
   );
 }
