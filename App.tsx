@@ -18,7 +18,6 @@ const randomImages = [
   "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/2.png",
   "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/3.png",
   "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/4.png",
-  "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/5.png",
   "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/6.png",
   "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/7.png",
   "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/8.png",
