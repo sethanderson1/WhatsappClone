@@ -19,7 +19,7 @@ type ChatRoomUser
 
 type ChatRoom @model {
   id: ID!
-  chatRoomUsers: [chatRoomUser]
+  chatRoomUsers: [ChatRoomUser]
     @connection(keyName: "byChatRoom", fields: ["id"])
   #list of messages
 }
