@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -15,29 +15,53 @@ import {
   Fontisto,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import { API, Auth, graphqlOperation } from "aws-amplify";
+import { createMessage } from "../../graphql/mutations";
 
 export type InputBoxProps = {
   message: Message;
 };
 
-const InputBox = () => {
+const InputBox = (props) => {
+  const { chatRoomID } = props;
+
   const [message, setMessage] = useState("");
+  const [myUserID, setMyUserID] = useState(null);
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userInfo = await Auth.currentAuthenticatedUser();
+      setMyUserID(userInfo.attributes.sub);
+    };
+    fetchUser();
+  }, []);
   const onMicrophonePress = () => {
-    console.warn('Microphone')
-  }
+    console.warn("Microphone");
+  };
 
-  const onSendPress = () => {
-    console.warn(`sending: ${message}`)
+  const onSendPress = async () => {
+    try {
+      await API.graphql(
+        graphqlOperation(createMessage, {
+          input: {
+            content: message,
+            userID: myUserID,
+            chatRoomID: chatRoomID,
+          },
+        })
+      );
+    } catch (e) {
+      console.log("e", e);
+    }
 
     // set the message to the backend
-    
-    setMessage('');
-  }
+
+    setMessage("");
+  };
 
   const onPress = () => {
     if (!message) {
-      onMicrophonePress()
+      onMicrophonePress();
     } else {
       onSendPress();
     }
