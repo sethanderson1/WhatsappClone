@@ -23,7 +23,7 @@ type ChatRoom @model {
     @connection(keyName: "byChatRoom", fields: ["id"])
   messages: [Message] @connection(keyName: "byChatRoom", fields: ["id"])
   lastMessageID: ID
-  lastMessage: Message @connection(fields: ["lastMessageID])
+  lastMessage: Message @connection(fields: ["lastMessageID"])
 }
 
 type Message
