@@ -16,7 +16,7 @@ import {
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
 import { API, Auth, graphqlOperation } from "aws-amplify";
-import { createMessage } from "../../graphql/mutations";
+import { createMessage, updateChatRoom } from "../../graphql/mutations";
 
 export type InputBoxProps = {
   message: Message;
@@ -39,9 +39,25 @@ const InputBox = (props) => {
     console.warn("Microphone");
   };
 
-  const onSendPress = async () => {
+  const updateChatRoomLastMessage = async (messageID: string) => {
     try {
       await API.graphql(
+        graphqlOperation(updateChatRoom, {
+          input: {
+            id: chatRoomID,
+            lastMessageID: messageID
+          }
+        })
+      )
+    } catch(e) {
+      console.log('e', e)
+
+    }
+  }
+
+  const onSendPress = async () => {
+    try {
+      const newMessageData = await API.graphql(
         graphqlOperation(createMessage, {
           input: {
             content: message,
@@ -50,9 +66,11 @@ const InputBox = (props) => {
           },
         })
       );
-    } catch (e) {
-      console.log("e", e);
+      await updateChatRoomLastMessage(newMessageData.data.createMessage.id)
+    } catch (e) { 
+      // console.log("e from onSendPress()", e);
     }
+
 
     // set the message to the backend
 

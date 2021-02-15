@@ -24,7 +24,7 @@ export default function ContactsScreen() {
           // console.log('usersData', usersData)
 
           const res = usersData.data.listUsers.items
-          console.log('res', res)
+          // console.log('res', res)
           setUsers(res)
           
       } catch (e) {
