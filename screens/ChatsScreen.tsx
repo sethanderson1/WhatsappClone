@@ -8,7 +8,11 @@ import NewMessageButton from "../components/NewMessageButton";
 import { useEffect, useState } from "react";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { getUser } from "./queries";
-import { onCreateChatRoom, onCreateMessage, onUpdateChatRoom } from "../graphql/subscriptions";
+import {
+  onCreateChatRoom,
+  onCreateMessage,
+  onUpdateChatRoom,
+} from "../graphql/subscriptions";
 import { updateMessage } from "../graphql/mutations";
 
 export default function ChatsScreen() {
@@ -31,7 +35,11 @@ export default function ChatsScreen() {
         (item) => item.chatRoom.lastMessage
       );
       // console.log("nonEmptyChatRooms", nonEmptyChatRooms[0].chatRoom.lastMessage.updatedAt);
-      const sortedChatRooms = nonEmptyChatRooms.sort((a,b) =>new Date(b.chatRoom.lastMessage.updatedAt) - new Date(a.chatRoom.lastMessage.updatedAt) )
+      const sortedChatRooms = nonEmptyChatRooms.sort(
+        (a, b) =>
+          new Date(b.chatRoom.lastMessage.updatedAt) -
+          new Date(a.chatRoom.lastMessage.updatedAt)
+      );
       // console.log('sortedChatRooms', sortedChatRooms)
 
       setChatRooms(nonEmptyChatRooms);
@@ -57,40 +65,40 @@ export default function ChatsScreen() {
         // console.log("reached data section of subscription of onUpdateChatRoom");
         const updatedMessage = data.value.data.onUpdateChatRoom;
         // console.log("updatedMessage", updatedMessage);
-const lastMessageObj = updatedMessage.lastMessage
-console.log('lastMessageObj', lastMessageObj)
-        const lastMessage = updatedMessage.lastMessage.content
-        console.log('lastMessage', lastMessage)
+        const lastMessageObj = updatedMessage.lastMessage;
+        // console.log("lastMessageObj", lastMessageObj);
 
-        const lastMessageAuthor = updatedMessage.lastMessage.user.name
-        console.log('lastMessageAuthor', lastMessageAuthor)
-        
-        const mostRecentlyUsedChatRoomID = updatedMessage.id
-        console.log('mostRecentlyUsedChatRoomID', mostRecentlyUsedChatRoomID)
+        const mostRecentlyUsedChatRoomID = updatedMessage.id;
+        // console.log("mostRecentlyUsedChatRoomID", mostRecentlyUsedChatRoomID);
 
-        
-
-        const oldOrderedChatRooms = [...chatRooms]
+        const oldOrderedChatRooms = [...chatRooms];
         // console.log('oldOrderedChatRooms', oldOrderedChatRooms)
-        const matchingChatRoom = oldOrderedChatRooms.find(item=>item.chatRoom.id === mostRecentlyUsedChatRoomID)
-        
-        matchingChatRoom.chatRoom.lastMessage = lastMessageObj
-        
-        console.log('matchingChatRoom.chatRoom.lastMessage', matchingChatRoom.chatRoom.lastMessage)
-        
-        console.log('matchingChatRoom', matchingChatRoom)
-        const chatRoomsMinusMatchingRoom = oldOrderedChatRooms.filter(item=>item.chatRoom.id !== mostRecentlyUsedChatRoomID)
+        const matchingChatRoom = oldOrderedChatRooms.find(
+          (item) => item.chatRoom.id === mostRecentlyUsedChatRoomID
+        );
 
-        const properOrderedChatRooms = [matchingChatRoom, ...chatRoomsMinusMatchingRoom]
-        
-        
+        console.log("matchingChatRoom", matchingChatRoom);
+        if (!matchingChatRoom) {
+          fetchChatRooms();
+          return;
+        }
 
-        
+        matchingChatRoom.chatRoom.lastMessage = lastMessageObj;
+
+        // console.log("matchingChatRoom", matchingChatRoom);
+        const chatRoomsMinusMatchingRoom = oldOrderedChatRooms.filter(
+          (item) => item.chatRoom.id !== mostRecentlyUsedChatRoomID
+        );
+
+        const properOrderedChatRooms = [
+          matchingChatRoom,
+          ...chatRoomsMinusMatchingRoom,
+        ];
+
         setChatRooms(properOrderedChatRooms);
 
-
-
-
+        // TODO: if lastmessage is part of a chat wwhere that is the only message, refetch chatrooms
+        // or ... if lastmessage is part of a chat that does not exxist in properOrderedChatRooms, refetch chatrooms
 
         // if (newMessage.chatRoomID !== route.params.id) {
         //   return;
@@ -100,37 +108,37 @@ console.log('lastMessageObj', lastMessageObj)
       },
     });
 
-  // useEffect(() => {
-  //   console.log("useEffect");
-  //   const subscription = API.graphql(
-  //     graphqlOperation(onCreateMessage)
-  //   ).subscribe({
-  //     next: (data) => {
-  //       // console.log("data.value.data", data.value.data);
-  //       console.log("reached data section of subscription of onCreateMessage");
-  //       const newMessage = data.value.data.onCreateMessage;
-  //       // console.log("newMessage", newMessage);
+    // useEffect(() => {
+    //   console.log("useEffect");
+    //   const subscription = API.graphql(
+    //     graphqlOperation(onCreateMessage)
+    //   ).subscribe({
+    //     next: (data) => {
+    //       // console.log("data.value.data", data.value.data);
+    //       console.log("reached data section of subscription of onCreateMessage");
+    //       const newMessage = data.value.data.onCreateMessage;
+    //       // console.log("newMessage", newMessage);
 
-  //       const mostRecentlyUsedChatRoomID = newMessage.chatRoom.id
-  //       console.log('mostRecentlyUsedChatRoomID', mostRecentlyUsedChatRoomID)
+    //       const mostRecentlyUsedChatRoomID = newMessage.chatRoom.id
+    //       console.log('mostRecentlyUsedChatRoomID', mostRecentlyUsedChatRoomID)
 
-  //       const oldOrderedChatRooms = [...chatRooms]
-  //       // console.log('oldOrderedChatRooms', oldOrderedChatRooms)
-  //       const matchingChatRoom = oldOrderedChatRooms.find(item=>item.chatRoom.id === mostRecentlyUsedChatRoomID)
-  //       console.log('matchingChatRoom', matchingChatRoom)
+    //       const oldOrderedChatRooms = [...chatRooms]
+    //       // console.log('oldOrderedChatRooms', oldOrderedChatRooms)
+    //       const matchingChatRoom = oldOrderedChatRooms.find(item=>item.chatRoom.id === mostRecentlyUsedChatRoomID)
+    //       console.log('matchingChatRoom', matchingChatRoom)
 
-  //       const chatRoomsMinusMatchingRoom = oldOrderedChatRooms.filter(item=>item.chatRoom.id !== mostRecentlyUsedChatRoomID)
+    //       const chatRoomsMinusMatchingRoom = oldOrderedChatRooms.filter(item=>item.chatRoom.id !== mostRecentlyUsedChatRoomID)
 
-  //       const properOrderedChatRooms = [matchingChatRoom, ...chatRoomsMinusMatchingRoom]
-        
-  //       setChatRooms(properOrderedChatRooms);
-  //       // if (newMessage.chatRoomID !== route.params.id) {
-  //       //   return;
-  //       // }
-  //       // setChatRooms((prevChatRooms) => [newChatRoom, ...prevChatRooms]);
-  //       // console.log(data.value.data)
-  //     },
-  //   });
+    //       const properOrderedChatRooms = [matchingChatRoom, ...chatRoomsMinusMatchingRoom]
+
+    //       setChatRooms(properOrderedChatRooms);
+    //       // if (newMessage.chatRoomID !== route.params.id) {
+    //       //   return;
+    //       // }
+    //       // setChatRooms((prevChatRooms) => [newChatRoom, ...prevChatRooms]);
+    //       // console.log(data.value.data)
+    //     },
+    //   });
 
     // useEffect(() => {
     //   console.log('useEffect')
