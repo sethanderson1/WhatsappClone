@@ -13,8 +13,8 @@ const ChatMessage = (props: ChatMessageProps) => {
   const { message, myID } = props;
   
   const isMyMessage = () => {
-    console.log('message from ChatMessage index', message)
-    console.log('myID', myID)
+    // console.log('message from ChatMessage index', message)
+    // console.log('myID', myID)
     return message.user.id === myID;
   };
 
