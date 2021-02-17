@@ -8,6 +8,7 @@ import NewMessageButton from "../components/NewMessageButton";
 import { useEffect, useState } from "react";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { getUser } from "./queries";
+import { onCreateChatRoom } from "../graphql/subscriptions";
 
 export default function ChatsScreen() {
   const [chatRooms, setChatRooms] = useState([])
@@ -22,8 +23,12 @@ export default function ChatsScreen() {
             id: userInfo.attributes.sub,
           })
           );
-          
-          setChatRooms(userData.data.getUser.chatRoomUser.items)
+
+          const chatRoomUserItems = userData.data.getUser.chatRoomUser.items.filter(item=> item.chatRoom)
+          const nonEmptyChatRooms = chatRoomUserItems.filter(item=>item.chatRoom.lastMessage)
+          console.log('nonEmptyChatRooms', nonEmptyChatRooms)
+
+          setChatRooms(nonEmptyChatRooms)
           
           // console.log('chatRooms', chatRooms)
         // console.log("userData", userData);
@@ -35,6 +40,29 @@ export default function ChatsScreen() {
 
     fetchChatRooms();
   }, []);
+
+
+  // useEffect(() => {
+  //   const subscription = API.graphql(
+  //     graphqlOperation(onCreateChatRoom)
+  //     ).subscribe({
+  //       next: (data) => {
+  //         // console.log('data.value.data', data.value.data)
+  //       const newChatRoom = data.value.data.onCreateChatRoom;
+
+  //       // if (newChatRoom.chatRoomID !== route.params.id) {
+  //       //   return;
+  //       // }
+  //       setMessages(prevMessages => [newChatRoom, ...prevMessages]);
+  //       // console.log(data.value.data)
+  //       // console.log('messages', messages)
+  //     },
+  //   });
+    
+  //   return () => subscription.unsubscribe();
+  // }, []);
+
+
 
   return (
     <View style={styles.container}>

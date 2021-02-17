@@ -42,11 +42,11 @@ const ChatRoomScreen = () => {
       graphqlOperation(onCreateMessage)
       ).subscribe({
         next: (data) => {
-          console.log('data.value.data', data.value.data)
+          // console.log('data.value.data', data.value.data)
         const newMessage = data.value.data.onCreateMessage;
-        console.log('newMessage', newMessage)
-        console.log('newMessage.chatRoomID', newMessage.chatRoomID)
-        console.log('route.params.id', route.params.id)
+        // console.log('newMessage', newMessage)
+        // console.log('newMessage.chatRoomID', newMessage.chatRoomID)
+        // console.log('route.params.id', route.params.id)
         if (newMessage.chatRoomID !== route.params.id) {
           return;
         }
