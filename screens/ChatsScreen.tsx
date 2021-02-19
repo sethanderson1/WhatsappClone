@@ -55,37 +55,26 @@ export default function ChatsScreen() {
     fetchChatRooms();
   }, []);
 
-  useEffect(() => {
-    console.log("useEffect");
+  const subscribe = () => {
     const subscription = API.graphql(
       graphqlOperation(onUpdateChatRoom)
     ).subscribe({
       next: (data) => {
-        // console.log("data.value.data", data.value.data);
-        // console.log("reached data section of subscription of onUpdateChatRoom");
         const updatedMessage = data.value.data.onUpdateChatRoom;
-        // console.log("updatedMessage", updatedMessage);
         const lastMessageObj = updatedMessage.lastMessage;
-        // console.log("lastMessageObj", lastMessageObj);
-
         const mostRecentlyUsedChatRoomID = updatedMessage.id;
-        // console.log("mostRecentlyUsedChatRoomID", mostRecentlyUsedChatRoomID);
-
         const oldOrderedChatRooms = [...chatRooms];
-        // console.log('oldOrderedChatRooms', oldOrderedChatRooms)
         const matchingChatRoom = oldOrderedChatRooms.find(
           (item) => item.chatRoom.id === mostRecentlyUsedChatRoomID
         );
 
-        console.log("matchingChatRoom", matchingChatRoom);
+        // console.log("matchingChatRoom", matchingChatRoom);
         if (!matchingChatRoom) {
           fetchChatRooms();
           return;
         }
 
         matchingChatRoom.chatRoom.lastMessage = lastMessageObj;
-
-        // console.log("matchingChatRoom", matchingChatRoom);
         const chatRoomsMinusMatchingRoom = oldOrderedChatRooms.filter(
           (item) => item.chatRoom.id !== mostRecentlyUsedChatRoomID
         );
@@ -100,66 +89,22 @@ export default function ChatsScreen() {
         // TODO: if lastmessage is part of a chat wwhere that is the only message, refetch chatrooms
         // or ... if lastmessage is part of a chat that does not exxist in properOrderedChatRooms, refetch chatrooms
 
-        // if (newMessage.chatRoomID !== route.params.id) {
-        //   return;
-        // }
-        // setChatRooms((prevChatRooms) => [newChatRoom, ...prevChatRooms]);
+        console.log("route.params.id", route.params.id);
+
         // console.log(data.value.data)
       },
     });
+    return subscribe;
+  };
 
-    // useEffect(() => {
-    //   console.log("useEffect");
-    //   const subscription = API.graphql(
-    //     graphqlOperation(onCreateMessage)
-    //   ).subscribe({
-    //     next: (data) => {
-    //       // console.log("data.value.data", data.value.data);
-    //       console.log("reached data section of subscription of onCreateMessage");
-    //       const newMessage = data.value.data.onCreateMessage;
-    //       // console.log("newMessage", newMessage);
+  useEffect(() => {
+    const subscription = subscribe();
 
-    //       const mostRecentlyUsedChatRoomID = newMessage.chatRoom.id
-    //       console.log('mostRecentlyUsedChatRoomID', mostRecentlyUsedChatRoomID)
+    
 
-    //       const oldOrderedChatRooms = [...chatRooms]
-    //       // console.log('oldOrderedChatRooms', oldOrderedChatRooms)
-    //       const matchingChatRoom = oldOrderedChatRooms.find(item=>item.chatRoom.id === mostRecentlyUsedChatRoomID)
-    //       console.log('matchingChatRoom', matchingChatRoom)
-
-    //       const chatRoomsMinusMatchingRoom = oldOrderedChatRooms.filter(item=>item.chatRoom.id !== mostRecentlyUsedChatRoomID)
-
-    //       const properOrderedChatRooms = [matchingChatRoom, ...chatRoomsMinusMatchingRoom]
-
-    //       setChatRooms(properOrderedChatRooms);
-    //       // if (newMessage.chatRoomID !== route.params.id) {
-    //       //   return;
-    //       // }
-    //       // setChatRooms((prevChatRooms) => [newChatRoom, ...prevChatRooms]);
-    //       // console.log(data.value.data)
-    //     },
-    //   });
-
-    // useEffect(() => {
-    //   console.log('useEffect')
-    //   const subscription = API.graphql(
-    //     graphqlOperation(onCreateChatRoom)
-    //   ).subscribe({
-    //     next: (data) => {
-    //       console.log('data.value.data', data.value.data)
-    //       console.log('reached data section of subscription of onCreateChatRoom')
-    //       const newChatRoom = data.value.data.onCreateChatRoom;
-    //       console.log("newChatRoom", newChatRoom);
-
-    //       // if (newChatRoom.chatRoomID !== route.params.id) {
-    //       //   return;
-    //       // }
-    //       setChatRooms((prevChatRooms) => [newChatRoom, ...prevChatRooms]);
-    //       // console.log(data.value.data)
-    //     },
-    //   });
-
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   return (
