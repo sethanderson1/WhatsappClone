@@ -9,6 +9,8 @@ import NewMessageButton from "../components/NewMessageButton";
 import { graphqlOperation, API } from "aws-amplify";
 import {listUsers} from '../graphql/queries'
 
+// TODO: I should only be able to see MY contacts
+
 export default function ContactsScreen() {
   const [users, setUsers] = useState([])
   

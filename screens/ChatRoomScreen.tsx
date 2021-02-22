@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Text, FlatList, ImageBackground } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import ChatMessage from "../components/ChatMessage";
@@ -12,9 +12,7 @@ const ChatRoomScreen = () => {
   const [messages, setMessages] = useState([]);
   const [myID, setMyID] = useState(null);
   const route = useRoute();
-  // console.log('route', route)
-  // console.log("route.params", route.params);
-  
+
   useEffect(() => {
     const fetchMessages = async () => {
       const messagesData = await API.graphql(
@@ -22,13 +20,13 @@ const ChatRoomScreen = () => {
           chatRoomID: route.params.id,
           sortDirection: "DESC",
         })
-        );
-        
-        setMessages(messagesData.data.messagesByChatRoom.items);
-      };
+      );
+
+      setMessages(messagesData.data.messagesByChatRoom.items);
+    };
     fetchMessages();
   }, []);
-  
+
   useEffect(() => {
     const getMyID = async () => {
       const userInfo = await Auth.currentAuthenticatedUser();
@@ -40,22 +38,19 @@ const ChatRoomScreen = () => {
   useEffect(() => {
     const subscription = API.graphql(
       graphqlOperation(onCreateMessage)
-      ).subscribe({
-        next: (data) => {
-          // console.log('data.value.data', data.value.data)
+    ).subscribe({
+      next: (data) => {
         const newMessage = data.value.data.onCreateMessage;
-        // console.log('newMessage', newMessage)
-        // console.log('newMessage.chatRoomID', newMessage.chatRoomID)
-        // console.log('route.params.id', route.params.id)
+
         if (newMessage.chatRoomID !== route.params.id) {
           return;
         }
-        setMessages(prevMessages => [newMessage, ...prevMessages]);
+        setMessages((prevMessages) => [newMessage, ...prevMessages]);
         // console.log(data.value.data)
         // console.log('messages', messages)
       },
     });
-    
+
     return () => subscription.unsubscribe();
   }, []);
 
@@ -71,7 +66,7 @@ const ChatRoomScreen = () => {
         data={messages}
         renderItem={({ item }) => <ChatMessage myID={myID} message={item} />}
         //   keyExtractor={(item) => item.id}
-        //   style={{ width: "100%" }}
+        // style={{ flexDirection: "column-reverse" }}
         inverted
       />
       <InputBox chatRoomID={route.params.id} />

@@ -41,3 +41,8 @@ type Message
   user: User @connection(fields: ["userID"])
   chatRoom: ChatRoom @connection(fields: ["chatRoomID"])
 }
+
+type Subscription {
+  onUpdateChatRoomWithFilter(chatRoomID: ID!): ChatRoom
+    @aws_subscribe(mutations: ["updateChatRoom"])
+}

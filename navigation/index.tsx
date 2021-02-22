@@ -94,10 +94,7 @@ function RootNavigator() {
           ),
         })}
       />
-      <Stack.Screen
-        name="Contacts"
-        component={ContactsScreen}
-      />
+      <Stack.Screen name="Contacts" component={ContactsScreen} />
       <Stack.Screen
         name="NotFound"
         component={NotFoundScreen}
