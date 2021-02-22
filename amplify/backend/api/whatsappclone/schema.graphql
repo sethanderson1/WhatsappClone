@@ -43,6 +43,6 @@ type Message
 }
 
 type Subscription {
-  onUpdateChatRoomWithFilter(chatRoomID: ID!): ChatRoom
+  onUpdateChatRoomWithFilter(id: ID!): ChatRoom
     @aws_subscribe(mutations: ["updateChatRoom"])
 }

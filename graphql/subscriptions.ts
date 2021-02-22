@@ -3,8 +3,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const onUpdateChatRoomWithFilter = /* GraphQL */ `
-  subscription OnUpdateChatRoomWithFilter($chatRoomID: ID!) {
-    onUpdateChatRoomWithFilter(chatRoomID: $chatRoomID) {
+  subscription OnUpdateChatRoomWithFilter($id: ID!) {
+    onUpdateChatRoomWithFilter(id: $id) {
       id
       chatRoomUsers {
         items {

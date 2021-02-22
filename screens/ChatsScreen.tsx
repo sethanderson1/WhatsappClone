@@ -6,7 +6,10 @@ import NewMessageButton from "../components/NewMessageButton";
 import { useEffect, useState } from "react";
 import { API, Auth, graphqlOperation } from "aws-amplify";
 import { getUser } from "./queries";
-import { onUpdateChatRoom } from "../graphql/subscriptions";
+import {
+  onUpdateChatRoom,
+  onUpdateChatRoomWithFilter,
+} from "../graphql/subscriptions";
 
 export default function ChatsScreen() {
   const [chatRooms, setChatRooms] = useState([]);
@@ -47,7 +50,7 @@ export default function ChatsScreen() {
     );
 
     if (!matchingChatRoom) {
-      console.log('matchingChatRoom', matchingChatRoom)
+      console.log("matchingChatRoom", matchingChatRoom);
       fetchChatRooms();
       return;
     }
@@ -75,13 +78,32 @@ export default function ChatsScreen() {
     return subscription;
   };
 
+  const subscribeToRoom = () => {
+    const subscription = API.graphql(
+      graphqlOperation(
+        onUpdateChatRoomWithFilter({
+          input: { chatRoomID: "072d0f60-5fc1-46c8-8dc7-c57e533475d1" },
+        })
+      )
+    ).subscribe({
+      next: (data) => {
+        console.log("data", data);
+        // subscriptionNext(data);
+      },
+    });
+    return subscription;
+  };
+
   useEffect(() => {
     if (!chatRooms.length) fetchChatRooms();
-    console.log("chatRooms length", chatRooms.length);
+    // console.log("chatRooms length", chatRooms.length);
   }, [chatRooms]);
 
   useEffect(() => {
+    const subscriptions = [];
+
     const subscription = subscribe();
+    // const subscription = subscribeToRoom();
 
     return () => {
       subscription.unsubscribe();
