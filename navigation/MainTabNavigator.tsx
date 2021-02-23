@@ -37,7 +37,8 @@ export default function MainTabNavigator() {
     >
       <MainTab.Screen
         name="Camera"
-        component={TabOneNavigator}
+        component={TabTwoNavigator}
+        // component={TabOneNavigator}
         options={{
           tabBarIcon: ({ color }) => (
             <Fontisto name="camera" color={color} size={18}/>
